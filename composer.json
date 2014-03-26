@@ -16,6 +16,11 @@
 		"php": ">=5.3",
 		"contao/core": ">=2.11,<4"
 	},
+	"autoload": {
+		"psr-0": {
+			"ContaoCommunityAlliance": "src/"
+		}
+	},
 	"extra": {
 		"contao": {
 			"sources": {
