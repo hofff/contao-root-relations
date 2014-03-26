@@ -15,6 +15,6 @@ CREATE TABLE `tl_page` (
 
   `cca_rr_root` int(10) unsigned NOT NULL default '0',
 
-  KEY `cca_rr_root_ix` (`cca_rr_root`),
+  KEY `cca_rr_root` (`cca_rr_root`),
 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
