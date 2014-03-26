@@ -21,6 +21,22 @@ class PageDCA {
 		\Database::getInstance()->prepare($sql)->executeUncached(intval($root), $id);
 	}
 
+	public function onsubmitPage($dc) {
+		if(isset($this->typeChanged[$dc->id])) {
+			RootRelations::updatePageRoots($dc->id);
+		}
+	}
+
+	private $typeChanged = array();
+
+	public function saveType($value, $dc) {
+		if($value != $dc->activeRecord->type)
+		if($value == 'root' || $dc->activeRecord->type == 'root') {
+			$this->typeChanged[$dc->id] = true;
+		}
+		return $value;
+	}
+
 	public function oncopyPage($id) {
 		RootRelations::updatePageRoots($id);
 	}
