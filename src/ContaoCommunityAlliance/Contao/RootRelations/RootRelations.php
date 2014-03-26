@@ -26,7 +26,7 @@ class RootRelations {
 			$descendants = array_merge($descendants, $pages);
 			$descendants = implode(',', $descendants);
 			$sql = "UPDATE tl_page SET cca_rr_root = ? WHERE id IN ($descendants)";
-			$db->prepare($sql)->execute($root);
+			$db->prepare($sql)->executeUncached($root);
 		}
 
 		if(!$orphans) {

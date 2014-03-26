@@ -17,7 +17,7 @@ class PageDCA {
 		$root = $parent->type == 'root' ? $parent->id : $parent->rootId;
 
 		$sql = 'UPDATE tl_page SET cca_rr_root = ? WHERE id = ?';
-		\Database::getInstance()->prepare($sql)->execute(intval($root), $id);
+		\Database::getInstance()->prepare($sql)->executeUncached(intval($root), $id);
 	}
 
 	public function oncopyPage($id) {
