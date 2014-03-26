@@ -1,0 +1,29 @@
+{
+	"name": "contao-community-alliance/root-relations",
+	"description": "Adds and maintains a reference field in the page table pointing to the root page of each page.",
+	"keywords": [ "utility", "page", "tree", "contao" ],
+	"type": "contao-module",
+	"license": "LGPL-3.0+",
+	"authors": [
+		{
+			"name": "Oliver Hoff",
+			"email": "oliver@hofff.com",
+			"homepage": "http://hofff.com/",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.3",
+		"contao/core": ">=2.11,<4"
+	},
+	"extra": {
+		"contao": {
+			"sources": {
+				"contao-module": "system/modules/cca-root-relations"
+			},
+			"runonce": [
+				"runonce/updatePageRoots.php"
+			]
+		}
+	}
+}
