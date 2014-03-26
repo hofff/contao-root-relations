@@ -9,12 +9,13 @@ class PageDCA {
 			return;
 		}
 
-		if(!$set['pid']) {
-			return;
-		}
+		if($set['type'] == 'root') {
+			$root = $id;
 
-		$parent = ControllerProxy::getPageDetails($set['pid']);
-		$root = $parent->type == 'root' ? $parent->id : $parent->rootId;
+		} elseif($set['pid']) {
+			$parent = ControllerProxy::getPageDetails($set['pid']);
+			$root = $parent->type == 'root' ? $parent->id : $parent->rootId;
+		}
 
 		$sql = 'UPDATE tl_page SET cca_rr_root = ? WHERE id = ?';
 		\Database::getInstance()->prepare($sql)->executeUncached(intval($root), $id);
