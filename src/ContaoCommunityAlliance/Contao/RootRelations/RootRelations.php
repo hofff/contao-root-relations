@@ -23,7 +23,7 @@ class RootRelations {
 
 		foreach($roots as $root => $pages) {
 			$descendants = ControllerProxy::getChildRecords($pages, 'tl_page');
-			$descendants = array_merge($descendants, $pages);
+			$descendants = array_merge($descendants, (array) $pages);
 			$descendants = implode(',', $descendants);
 			$sql = "UPDATE tl_page SET cca_rr_root = ? WHERE id IN ($descendants)";
 			$db->prepare($sql)->executeUncached($root);
