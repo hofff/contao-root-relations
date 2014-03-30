@@ -4,50 +4,48 @@ namespace ContaoCommunityAlliance\Contao\RootRelations;
 
 class RootRelations {
 
-	public static function updatePageRoots($pages = null, $orphans = true) {
+	/**
+	 * Updates the direct root references for each given page and their
+	 * descendants or, if no pages are given, the update is done for the whole
+	 * page tree.
+	 *
+	 * @param null|integer|array<integer> $pages
+	 */
+	public static function updatePageRoots($pages = null) {
 		$db = \Database::getInstance();
 
+		// $roots contains a map from page id to their respective root id
+
 		if($pages === null) {
-			$sql = "SELECT id FROM tl_page WHERE type = 'root'";
-			$roots = $db->query($sql)->fetchEach('id');
-			$roots = array_combine($roots, $roots);
+			$pids = array(0);
+			$roots = array(0 => 0);
 
 		} else {
-			$pages = array_unique(array_map('intval', array_filter((array) $pages, 'is_numeric')));
 			$roots = array();
-			foreach($pages as $page) if($page = ControllerProxy::getPageDetails($page)) {
-				$root = $page->type == 'root' ? $page->id : intval($page->rootId);
-				$roots[$root][] = $page->id;
+			foreach((array) $pages as $id) if($page = ControllerProxy::getPageDetails($id)) {
+				$pids[] = $page->id;
+				$roots[$page->id] = $page->type == 'root' ? $page->id : intval($page->rootId);
 			}
 		}
 
-		foreach($roots as $root => $pages) {
-			$descendants = ControllerProxy::getChildRecords($pages, 'tl_page');
-			$descendants = array_merge($descendants, (array) $pages);
-			$descendants = implode(',', $descendants);
-			$sql = "UPDATE tl_page SET cca_rr_root = ? WHERE id IN ($descendants)";
-			$db->prepare($sql)->executeUncached($root);
+		while($pids) {
+			$sql = 'SELECT id, pid, type = \'root\' AS isRoot FROM tl_page WHERE pid IN (' . implode(',', $pids) . ')';
+			$result = $db->query($sql);
+
+			$pids = array();
+			while($result->next()) if(!isset($roots[$result->id])) {
+				$roots[$result->id] = $result->isRoot ? $result->id : $roots[$result->pid];
+				$pids[] = $result->id;
+			}
 		}
 
-		if(!$orphans) {
-			return;
+		unset($roots[0]);
+		foreach($roots as $id => $root) {
+			$update[$root][] = $id;
 		}
 
-		// retrieve all pages not within a root page
-		$ids = array();
-		$pids = array(0);
-		do {
-			$pids = implode(',', $pids);
-			$sql = "SELECT id FROM tl_page WHERE pid IN ($pids) AND type != 'root'";
-			$pids = $db->query($sql)->fetchEach('id');
-			$ids[] = $pids;
-		} while($pids);
-
-		$ids = call_user_func_array('array_merge', $ids);
-
-		if($ids) {
-			$ids = implode(',', $ids);
-			$sql = "UPDATE tl_page SET cca_rr_root = 0 WHERE id IN ($ids)";
+		if($update) foreach($update as $root => $ids) {
+			$sql = 'UPDATE tl_page SET cca_rr_root = ' . $root . ' WHERE id IN (' . implode(',', $ids) . ')';
 			$db->query($sql);
 		}
 	}
