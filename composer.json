@@ -14,7 +14,7 @@
 	],
 	"require": {
 		"php": ">=5.3",
-		"contao/core": ">=2.11,<4"
+		"contao/core": ">=2.11,<4-dev"
 	},
 	"autoload": {
 		"psr-0": {
