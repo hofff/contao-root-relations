@@ -29,6 +29,9 @@ class PageDCA {
 			return;
 		}
 
+		// TODO better?
+// 		RootRelations::updatePageRoots($id);
+
 		if($set['type'] == 'root') {
 			$root = $id;
 
@@ -37,7 +40,7 @@ class PageDCA {
 			$root = $parent->type == 'root' ? $parent->id : $parent->rootId;
 		}
 
-		$sql = 'UPDATE tl_page SET cca_rr_root = ? WHERE id = ?';
+		$sql = 'UPDATE tl_page SET hofff_root_page_id = ? WHERE id = ?';
 		\Database::getInstance()->prepare($sql)->executeUncached(intval($root), $id);
 	}
 

@@ -31,6 +31,7 @@
 				"contao-module": "system/modules/hofff_root_relations"
 			},
 			"runonce": [
+				"runonce/01_renameDatabaseResources.php",
 				"runonce/updatePageRoots.php"
 			]
 		}

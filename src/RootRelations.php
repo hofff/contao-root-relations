@@ -51,7 +51,7 @@ class RootRelations {
 		}
 
 		foreach($update as $root => $ids) {
-			$sql = 'UPDATE tl_page SET cca_rr_root = ' . $root . ' WHERE id IN (' . implode(',', $ids) . ')';
+			$sql = 'UPDATE tl_page SET hofff_root_page_id = ' . $root . ' WHERE id IN (' . implode(',', $ids) . ')';
 			$db->query($sql);
 		}
 	}

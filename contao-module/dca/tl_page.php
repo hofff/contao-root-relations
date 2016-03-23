@@ -8,10 +8,10 @@ foreach([ 'oncreate', 'onsubmit', 'onrestore', 'oncopy', 'oncut' ] as $callback)
 	$config[$key] = (array) $config[$key];
 	array_unshift($config[$key], [ PageDCA::class, $callback . 'Page' ]);
 }
-$config['sql']['keys']['cca_rr_root'] = 'index';
+$config['sql']['keys']['hofff_root_page_id'] = 'index';
 unset($config);
 
-$GLOBALS['TL_DCA']['tl_page']['fields']['cca_rr_root']['sql']
+$GLOBALS['TL_DCA']['tl_page']['fields']['hofff_root_page_id']['sql']
 	= 'int(10) unsigned NOT NULL default \'0\'';
 
 $GLOBALS['TL_DCA']['tl_page']['fields']['type']['save_callback'][]
