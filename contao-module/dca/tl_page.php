@@ -1,7 +1,5 @@
 <?php
 
-use Hofff\Contao\RootRelations\PageDCA;
-
 $config = &$GLOBALS['TL_DCA']['tl_page']['config'];
 foreach([ 'oncreate', 'onsubmit', 'onrestore', 'oncopy', 'oncut' ] as $callback) {
 	$key = $callback . '_callback';
@@ -15,4 +13,4 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['hofff_root_page_id']['sql']
 	= 'int(10) unsigned NOT NULL default \'0\'';
 
 $GLOBALS['TL_DCA']['tl_page']['fields']['type']['save_callback'][]
-	= [ PageDCA::class, 'saveType' ];
+	= [ \Hofff\Contao\RootRelations\PageDCA::class, 'saveType' ];
