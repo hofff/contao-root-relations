@@ -56,4 +56,11 @@ class RootRelations {
 		}
 	}
 
+	/**
+	 * @return void
+	 */
+	public function callbackPurgeData() {
+		self::updatePageRoots();
+	}
+
 }
