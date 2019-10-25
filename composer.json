@@ -1,39 +1,41 @@
 {
-	"name": "hofff/contao-root-relations",
-	"description": "Adds and maintains a reference field in the page table pointing to the root page of each page.",
-	"keywords": [ "utility", "page", "tree", "contao" ],
-	"type": "contao-module",
-	"license": "LGPL-3.0+",
-	"authors": [
-		{
-			"name": "Oliver Hoff",
-			"email": "oliver@hofff.com",
-			"homepage": "http://hofff.com/",
-			"role": "Developer"
-		}
-	],
-	"require": {
-		"php": "^5.5 || ^7.0",
-		"contao/core-bundle": "^3.2 || ^4.4",
-		"contao-community-alliance/composer-plugin": "^2.4 || ^3.0"
-	},
-	"replace": {
-		"contao-community-alliance/root-relations": "self.version"
-	},
-	"autoload": {
-		"psr-4": {
-			"Hofff\\Contao\\RootRelations\\": "src/"
-		}
-	},
-	"extra": {
-		"contao": {
-			"sources": {
-				"contao-module": "system/modules/hofff_root_relations"
-			},
-			"runonce": [
-				"runonce/01_renameDatabaseResources.php",
-				"runonce/updatePageRoots.php"
-			]
-		}
-	}
+  "name": "hofff/contao-root-relations",
+  "description": "Adds and maintains a reference field in the page table pointing to the root page of each page.",
+  "keywords": [ "utility", "page", "tree", "contao" ],
+  "type": "contao-bundle",
+  "license": "LGPL-3.0+",
+  "authors": [
+    {
+      "name": "Nicky Hoff",
+      "email": "nick@hofff.com",
+      "homepage": "https://www.hofff.com",
+      "role": "Manager"
+    }
+  ],
+  "require": {
+    "php": "^7.2",
+    "contao/core-bundle": "^4.4",
+    "doctrine/dbal": "^2.8",
+    "symfony/dependency-injection": "^3.3 || ^4.0",
+    "symfony/http-kernel": "^3.3 || ^4.0"
+  },
+  "require-dev": {
+    "contao/manager-plugin": "^2.1",
+    "doctrine/coding-standard": "^5.0"
+  },
+  "conflict": {
+    "contao/manager-plugin": "<2.1 || >= 3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Hofff\\Contao\\RootRelations\\": "src/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-release/3.0": "3.0.x-dev",
+      "dev-support/2.x": "2.1.x-dev"
+    },
+    "contao-manager-plugin": "Hofff\\Contao\\RootRelations\\ContaoManager\\Plugin"
+  }
 }
