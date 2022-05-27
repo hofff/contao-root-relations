@@ -7,7 +7,7 @@ namespace Hofff\Contao\RootRelations;
 use Contao\PageModel;
 use Contao\System;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
+
 use function implode;
 use function intval;
 
@@ -43,17 +43,16 @@ class RootRelations
         }
 
         while ($pids) {
-            $result = $db->query('SELECT id, pid, type = \'root\' AS isRoot FROM tl_page WHERE pid IN (' .
+            $result = $db->executeQuery('SELECT id, pid, type = \'root\' AS isRoot FROM tl_page WHERE pid IN (' .
                 implode(',', $pids) . ')');
-            $result->execute();
             $pids = [];
-            while ($row = $result->fetch(FetchMode::STANDARD_OBJECT)) {
-                if (isset($roots[$row->id])) {
+            while ($row = $result->fetchAssociative()) {
+                if (isset($roots[$row['id']])) {
                     continue;
                 }
 
-                $roots[$row->id] = $row->isRoot ? $row->id : $roots[$row->pid];
-                $pids[]          = $row->id;
+                $roots[$row['id']] = $row['isRoot'] ? $row['id'] : $roots[$row['pid']];
+                $pids[]          = $row['id'];
             }
         }
 
@@ -65,7 +64,7 @@ class RootRelations
         }
 
         foreach ($update as $root => $ids) {
-            $db->query('UPDATE tl_page SET hofff_root_page_id = ' . $root . ' WHERE id IN (' .
+            $db->executeStatement('UPDATE tl_page SET hofff_root_page_id = ' . $root . ' WHERE id IN (' .
                 implode(',', $ids) . ')');
         }
     }
