@@ -18,19 +18,22 @@ class RootRelations
      * descendants or, if no pages are given, the update is done for the whole
      * page tree.
      *
-     * @param int|array<integer>|null $pages
+     * @param int|array<int>|null $pages
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public static function updatePageRoots($pages = null) : void
+    public static function updatePageRoots($pages = null): void
     {
-        /** @var Connection $db */
-        $db = System::getContainer()->get('database_connection');
+        /** @psalm-var Connection $database */
+        $database = System::getContainer()->get('database_connection');
 
         // $roots contains a map from page id to their respective root id
         if ($pages === null) {
-            $pids  = [ 0 ];
-            $roots = [ 0 => 0 ];
+            $pids  = [0];
+            $roots = [0 => 0];
         } else {
             $roots = [];
+            $pids  = [];
             foreach ((array) $pages as $id) {
                 $page = PageModel::findWithDetails($id);
                 if (! $page) {
@@ -43,16 +46,16 @@ class RootRelations
         }
 
         while ($pids) {
-            $result = $db->executeQuery('SELECT id, pid, type = \'root\' AS isRoot FROM tl_page WHERE pid IN (' .
+            $result = $database->executeQuery('SELECT id, pid, type = \'root\' AS isRoot FROM tl_page WHERE pid IN (' .
                 implode(',', $pids) . ')');
-            $pids = [];
+            $pids   = [];
             while ($row = $result->fetchAssociative()) {
                 if (isset($roots[$row['id']])) {
                     continue;
                 }
 
                 $roots[$row['id']] = $row['isRoot'] ? $row['id'] : $roots[$row['pid']];
-                $pids[]          = $row['id'];
+                $pids[]            = $row['id'];
             }
         }
 
@@ -64,12 +67,12 @@ class RootRelations
         }
 
         foreach ($update as $root => $ids) {
-            $db->executeStatement('UPDATE tl_page SET hofff_root_page_id = ' . $root . ' WHERE id IN (' .
+            $database->executeStatement('UPDATE tl_page SET hofff_root_page_id = ' . $root . ' WHERE id IN (' .
                 implode(',', $ids) . ')');
         }
     }
 
-    public function callbackPurgeData() : void
+    public function callbackPurgeData(): void
     {
         self::updatePageRoots();
     }

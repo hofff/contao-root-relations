@@ -7,12 +7,11 @@ namespace Hofff\Contao\RootRelations;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\PageModel;
-use function intval;
 
 class PageDCA
 {
     /** @var bool[] */
-    private $typeChanged;
+    private array $typeChanged;
 
     public function __construct()
     {
@@ -20,57 +19,67 @@ class PageDCA
     }
 
     /**
-     * @param mixed[] $set
+     * @param numeric-string|int $pageId
+     * @param mixed[]            $set
      */
-    public function oncreatePage(string $table, int $id, array $set, DataContainer $dc) : void
+    public function oncreatePage(string $table, $pageId, array $set): void
     {
         if ($table !== 'tl_page') {
             return;
         }
 
         // TODO better?
-//      RootRelations::updatePageRoots($id);
+        // RootRelations::updatePageRoots($id);
 
         if ($set['type'] === 'root') {
-            $root = $id;
+            $root = $pageId;
         } elseif ($set['pid']) {
             $parent = PageModel::findWithDetails($set['pid']);
-            $root   = $parent->type === 'root' ? $parent->id : $parent->rootId;
-        }
+            if ($parent === null) {
+                return;
+            }
 
-        $sql = 'UPDATE tl_page SET hofff_root_page_id = ? WHERE id = ?';
-        Database::getInstance()->prepare($sql)->execute(intval($root), $id);
-    }
-
-    public function onsubmitPage(DataContainer $dc) : void
-    {
-        if (! isset($this->typeChanged[$dc->id])) {
+            $root = $parent->type === 'root' ? $parent->id : $parent->rootId;
+        } else {
             return;
         }
 
-        RootRelations::updatePageRoots($dc->id);
+        $sql = 'UPDATE tl_page SET hofff_root_page_id = ? WHERE id = ?';
+        Database::getInstance()->prepare($sql)->execute((int) $root, $pageId);
     }
 
-    public function saveType(string $value, DataContainer $dc) : string
+    public function onsubmitPage(DataContainer $dataContainer): void
     {
-        if ($value === 'root' xor $dc->activeRecord->type === 'root') {
-            $this->typeChanged[$dc->id] = true;
+        if (! isset($this->typeChanged[$dataContainer->id])) {
+            return;
         }
+
+        RootRelations::updatePageRoots((int) $dataContainer->id);
+    }
+
+    public function saveType(string $value, DataContainer $dataContainer): string
+    {
+        if ($value === 'root' xor ($dataContainer->activeRecord && $dataContainer->activeRecord->type === 'root')) {
+            $this->typeChanged[$dataContainer->id] = true;
+        }
+
         return $value;
     }
 
-    public function oncopyPage(int $id) : void
+    /** @param numeric-string|int $pageId */
+    public function oncopyPage($pageId): void
     {
-        RootRelations::updatePageRoots($id);
+        RootRelations::updatePageRoots((int) $pageId);
     }
 
-    public function oncutPage(DataContainer $dc) : void
+    public function oncutPage(DataContainer $dataContainer): void
     {
-        RootRelations::updatePageRoots($dc->id);
+        RootRelations::updatePageRoots((int) $dataContainer->id);
     }
 
-    public function onrestorePage(int $id) : void
+    /** @param numeric-string|int $pageId */
+    public function onrestorePage($pageId): void
     {
-        RootRelations::updatePageRoots($id);
+        RootRelations::updatePageRoots((int) $pageId);
     }
 }

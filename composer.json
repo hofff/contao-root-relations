@@ -1,9 +1,14 @@
 {
   "name": "hofff/contao-root-relations",
   "description": "Adds and maintains a reference field in the page table pointing to the root page of each page.",
-  "keywords": [ "utility", "page", "tree", "contao" ],
+  "license": "LGPL-3.0-or-later",
   "type": "contao-bundle",
-  "license": "LGPL-3.0+",
+  "keywords": [
+    "utility",
+    "page",
+    "tree",
+    "contao"
+  ],
   "authors": [
     {
       "name": "Nicky Hoff",
@@ -25,7 +30,7 @@
     }
   ],
   "require": {
-    "php": "^7.2 || ^8.0",
+    "php": "^7.4 || ^8.0",
     "contao/core-bundle": "^4.9",
     "doctrine/dbal": "^2.11 || ^3.0",
     "symfony/dependency-injection": "^4.2.7 || ^5.0",
@@ -33,7 +38,8 @@
   },
   "require-dev": {
     "contao/manager-plugin": "^2.1",
-    "doctrine/coding-standard": "^9.0"
+    "doctrine/coding-standard": "^9.0",
+    "phpcq/runner-bootstrap": "^1.0@dev"
   },
   "conflict": {
     "contao/manager-plugin": "<2.1 || >= 3.0"
@@ -43,17 +49,17 @@
       "Hofff\\Contao\\RootRelations\\": "src/"
     }
   },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "3.0.x-dev"
-    },
-    "contao-manager-plugin": "Hofff\\Contao\\RootRelations\\ContaoManager\\Plugin"
-  },
   "config": {
     "allow-plugins": {
       "contao-components/installer": false,
       "contao/manager-plugin": true,
       "dealerdirect/phpcodesniffer-composer-installer": true
     }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "3.0.x-dev"
+    },
+    "contao-manager-plugin": "Hofff\\Contao\\RootRelations\\ContaoManager\\Plugin"
   }
 }
