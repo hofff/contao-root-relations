@@ -67,8 +67,16 @@ class RootRelations
         }
 
         foreach ($update as $root => $ids) {
-            $database->executeStatement('UPDATE tl_page SET hofff_root_page_id = ' . $root . ' WHERE id IN (' .
-                implode(',', $ids) . ')');
+            $database->executeStatement(
+                'UPDATE tl_page SET hofff_root_page_id = :id WHERE id IN(:ids)',
+                [
+                    'id'  => $root,
+                    'ids' => $ids,
+                ],
+                [
+                    'ids' => Connection::PARAM_STR_ARRAY,
+                ]
+            );
         }
     }
 

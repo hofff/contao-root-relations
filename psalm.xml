@@ -9,4 +9,17 @@
     <projectFiles>
         <directory name="src"/>
     </projectFiles>
+
+    <issueHandlers>
+        <DeprecatedMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="Doctrine\DBAL\Connection::getSchemaManager"/>
+            </errorLevel>
+        </DeprecatedMethod>
+        <InternalMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="Contao\CoreBundle\Framework\ContaoFramework::initialize"/>
+            </errorLevel>
+        </InternalMethod>
+    </issueHandlers>
 </psalm>
