@@ -24,7 +24,13 @@ final class InitializeRootRelationsMigration extends AbstractMigration
 
     public function shouldRun(): bool
     {
-        $columns = $this->connection->getSchemaManager()->listTableColumns('tl_page');
+        $schemaManager = $this->connection->getSchemaManager();
+
+        if (! $schemaManager->tablesExist('tl_page')) {
+            return false;
+        }
+
+        $columns = $schemaManager->listTableColumns('tl_page');
 
         return ! isset($columns['hofff_root_page_id']);
     }
