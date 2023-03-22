@@ -24,14 +24,14 @@ class PageDCA
      */
     public function oncreatePage(string $table, $pageId, array $set): void
     {
-        if ($table !== 'tl_page' || ! isset($set['type'])) {
+        if ($table !== 'tl_page') {
             return;
         }
 
         // TODO better?
         // RootRelations::updatePageRoots($id);
 
-        if ($set['type'] === 'root') {
+        if (isset($set['type']) && $set['type'] === 'root') {
             $root = $pageId;
         } elseif ($set['pid']) {
             $parent = PageModel::findWithDetails($set['pid']);
