@@ -24,7 +24,7 @@ class PageDCA
      */
     public function oncreatePage(string $table, $pageId, array $set): void
     {
-        if ($table !== 'tl_page') {
+        if ($table !== 'tl_page' || ! isset($set['type'])) {
             return;
         }
 
