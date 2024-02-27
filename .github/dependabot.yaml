@@ -7,9 +7,7 @@ updates:
       include: "scope"
       prefix: "composer"
     directory: "/"
-    labels:
-      - "dependency"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 0
     package-ecosystem: "composer"
     schedule:
       interval: "weekly"
@@ -19,8 +17,6 @@ updates:
       include: "scope"
       prefix: "github-actions"
     directory: "/"
-    labels:
-      - "dependency"
     open-pull-requests-limit: 10
     package-ecosystem: "github-actions"
     schedule:
