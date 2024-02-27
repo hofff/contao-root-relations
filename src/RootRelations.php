@@ -6,6 +6,7 @@ namespace Hofff\Contao\RootRelations;
 
 use Contao\PageModel;
 use Contao\System;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 use function implode;
@@ -74,8 +75,8 @@ class RootRelations
                     'ids' => $ids,
                 ],
                 [
-                    'ids' => Connection::PARAM_STR_ARRAY,
-                ]
+                    'ids' => ArrayParameterType::STRING,
+                ],
             );
         }
     }

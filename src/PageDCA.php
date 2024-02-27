@@ -45,6 +45,7 @@ class PageDCA
         }
 
         $sql = 'UPDATE tl_page SET hofff_root_page_id = ? WHERE id = ?';
+        /** @psalm-suppress TooManyArguments */
         Database::getInstance()->prepare($sql)->execute((int) $root, $pageId);
     }
 

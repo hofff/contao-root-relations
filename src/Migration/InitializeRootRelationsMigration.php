@@ -12,14 +12,8 @@ use Hofff\Contao\RootRelations\RootRelations;
 
 final class InitializeRootRelationsMigration extends AbstractMigration
 {
-    private Connection $connection;
-
-    private ContaoFramework $framework;
-
-    public function __construct(Connection $connection, ContaoFramework $framework)
+    public function __construct(private readonly Connection $connection, private readonly ContaoFramework $framework)
     {
-        $this->connection = $connection;
-        $this->framework  = $framework;
     }
 
     public function shouldRun(): bool
@@ -40,7 +34,7 @@ final class InitializeRootRelationsMigration extends AbstractMigration
         $this->framework->initialize();
 
         $this->connection->executeStatement(
-            'ALTER TABLE tl_page ADD hofff_root_page_id int(10) unsigned NOT NULL default \'0\''
+            'ALTER TABLE tl_page ADD hofff_root_page_id int(10) unsigned NOT NULL default \'0\'',
         );
 
         RootRelations::updatePageRoots();

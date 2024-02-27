@@ -1,25 +1,30 @@
 <?xml version="1.0"?>
 <psalm
-        errorLevel="3"
-        hideExternalErrors="true"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="https://getpsalm.org/schema/config"
-        xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config"
+  errorLevel="3"
+  hideExternalErrors="true"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="https://getpsalm.org/schema/config"
+  xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config"
 >
-    <projectFiles>
-        <directory name="src"/>
-    </projectFiles>
+  <projectFiles>
+    <directory name="src"/>
+  </projectFiles>
 
-    <issueHandlers>
-        <DeprecatedMethod>
-            <errorLevel type="suppress">
-                <referencedMethod name="Doctrine\DBAL\Connection::getSchemaManager"/>
-            </errorLevel>
-        </DeprecatedMethod>
-        <InternalMethod>
-            <errorLevel type="suppress">
-                <referencedMethod name="Contao\CoreBundle\Framework\ContaoFramework::initialize"/>
-            </errorLevel>
-        </InternalMethod>
-    </issueHandlers>
+  <issueHandlers>
+    <DeprecatedMethod>
+      <errorLevel type="suppress">
+        <referencedMethod name="Doctrine\DBAL\Connection::getSchemaManager"/>
+      </errorLevel>
+    </DeprecatedMethod>
+    <InternalMethod>
+      <errorLevel type="suppress">
+        <referencedMethod name="Contao\CoreBundle\Framework\ContaoFramework::initialize"/>
+      </errorLevel>
+    </InternalMethod>
+    <UndefinedMagicPropertyFetch>
+      <errorLevel type="suppress">
+        <referencedProperty name="Contao\DataContainer::$activeRecord"/>
+      </errorLevel>
+    </UndefinedMagicPropertyFetch>
+  </issueHandlers>
 </psalm>
