@@ -8,6 +8,7 @@ use Contao\Database;
 use Contao\DataContainer;
 use Contao\PageModel;
 
+/** @psalm-suppress ClassMustBeFinal */
 class PageDCA
 {
     /** @var bool[] */

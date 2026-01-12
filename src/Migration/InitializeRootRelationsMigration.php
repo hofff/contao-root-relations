@@ -9,6 +9,7 @@ use Contao\CoreBundle\Migration\AbstractMigration;
 use Contao\CoreBundle\Migration\MigrationResult;
 use Doctrine\DBAL\Connection;
 use Hofff\Contao\RootRelations\RootRelations;
+use Override;
 
 final class InitializeRootRelationsMigration extends AbstractMigration
 {
@@ -16,6 +17,7 @@ final class InitializeRootRelationsMigration extends AbstractMigration
     {
     }
 
+    #[Override]
     public function shouldRun(): bool
     {
         $schemaManager = $this->connection->getSchemaManager();
@@ -29,6 +31,7 @@ final class InitializeRootRelationsMigration extends AbstractMigration
         return ! isset($columns['hofff_root_page_id']);
     }
 
+    #[Override]
     public function run(): MigrationResult
     {
         $this->framework->initialize();

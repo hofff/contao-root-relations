@@ -12,6 +12,7 @@ use Doctrine\DBAL\Connection;
 use function implode;
 use function intval;
 
+/** @psalm-suppress ClassMustBeFinal */
 class RootRelations
 {
     /**
